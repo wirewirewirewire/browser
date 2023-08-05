@@ -1,13 +1,15 @@
-version: '2'
-
+version: "2"
 volumes:
-  settings:                          # Only required if using PERSISTENT flag (see below)
-
+  settings: # Only required if using PERSISTENT flag (see below)
 services:
-
   browser:
     build: .
     privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
     network_mode: host
     volumes:
-      - 'settings:/data' # Only required if using PERSISTENT flag (see below)
+      - "settings:/data" # Only required if using PERSISTENT flag (see below)
+    labels:
+      io.resin.features.dbus: "1"
+      io.resin.features.kernel-modules: "1"
+      io.resin.features.firmware: "1"
+      io.balena.features.supervisor-api: "1"
