@@ -29,6 +29,7 @@ let flags = [];
 
 // Refresh timer object
 let timer = {};
+var chrome = undefined;
 
 // Returns the URL to display, adhering to the hieracrchy:
 // 1) the configured LAUNCH_URL
@@ -131,12 +132,12 @@ let launchChromium = async function (url) {
     console.log("Disabling KIOSK mode");
   }
 
-  flags = flags.concat(["--no-sandbox"]);
+  flags = flags.concat(["--no-sandbox", "--test-type"]);
 
   console.log(`Starting Chromium with flags: ${flags}`);
   console.log(`Displaying URL: ${startingUrl}`);
 
-  const chrome = await chromeLauncher.launch({
+  chrome = await chromeLauncher.launch({
     chromePath: "/usr/bin/chromium-browser",
     startingUrl: startingUrl,
     ignoreDefaultFlags: true,
@@ -347,5 +348,8 @@ app.listen(API_PORT, () => {
 });
 
 process.on("SIGINT", () => {
+  if (chrome != undefined) {
+    chrome.kill();
+  }
   process.exit();
 });
