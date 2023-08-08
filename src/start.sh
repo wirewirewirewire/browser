@@ -42,6 +42,8 @@ echo "Installed browser version: $VERSION"
 
 node /usr/src/app/server.js
 
+#su -w $environment -c "export DISPLAY=:0 && node /usr/src/app/server.js" - chromium
+
 # launch Chromium and whitelist the enVars so that they pass through to the su session
 #su -w $environment -c "export DISPLAY=:$DISPLAY_NUM && /usr/src/app/startx.sh $CURSOR" - chromium
 

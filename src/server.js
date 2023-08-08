@@ -131,7 +131,7 @@ let launchChromium = async function (url) {
     console.log("Disabling KIOSK mode");
   }
 
-  // flags = flags.concat(["--no-sandbox"]);
+  flags = flags.concat(["--no-sandbox"]);
 
   console.log(`Starting Chromium with flags: ${flags}`);
   console.log(`Displaying URL: ${startingUrl}`);
