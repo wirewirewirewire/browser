@@ -40,6 +40,8 @@ sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/
 export VERSION=`chromium-browser --version`
 echo "Installed browser version: $VERSION"
 
+sleep 5
+
 node /usr/src/app/server.js
 
 #su -w $environment -c "export DISPLAY=:0 && node /usr/src/app/server.js" - chromium
