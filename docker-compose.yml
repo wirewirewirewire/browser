@@ -1,13 +1,21 @@
 version: "2"
 volumes:
   settings: # Only required if using PERSISTENT flag (see below)
+  xserver:
 services:
   browser:
     build: .
-    privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
     network_mode: host
+    ports:
+      - "5011" # management API (optional)
+      - "35173" # Chromium debugging port (optional)
+    devices:
+      - /dev/dri
+    group_add:
+      - video
     volumes:
       - "settings:/data" # Only required if using PERSISTENT flag (see below)
+      - "xserver:/tmp/.X11-unix" # external xserver needed
     labels:
       io.resin.features.dbus: "1"
       io.resin.features.kernel-modules: "1"
