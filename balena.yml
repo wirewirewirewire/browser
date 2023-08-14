@@ -32,17 +32,17 @@ post-provisioning: >-
         volumes:
           - 'settings:/data' # Only required if using PERSISTENT flag (see below)
     ```
-version: 2.5.1
+version: 2.5.2
 type: sw.block
 assets:
   repository:
     type: blob.asset
     data:
-      url: 'https://github.com/balena-labs-projects/browser'
+      url: "https://github.com/balena-labs-projects/browser"
   logo:
     type: blob.asset
     data:
-      url: 'https://raw.githubusercontent.com/balena-labs-projects/browser/master/logo.png'
+      url: "https://raw.githubusercontent.com/balena-labs-projects/browser/master/logo.png"
 data:
   defaultDeviceType: raspberrypi3
   supportedDeviceTypes:
