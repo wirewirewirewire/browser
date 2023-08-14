@@ -5,6 +5,7 @@ on:
     # Only run workflow for pushes to specific branches
     branches:
       - main
+      - master
       - newsystem
 
 jobs:
