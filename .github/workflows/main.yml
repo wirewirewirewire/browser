@@ -28,4 +28,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_TOKEN}}
-          balena_command: "push ${{vars.BALENA_FLEET}}-aarch64"
+          balena_command: "push ${{vars.BALENA_FLEET}}-rpi"

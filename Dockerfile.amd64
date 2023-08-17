@@ -1,6 +1,6 @@
 ARG NODEJS_VERSION="16.19.1"
 
-FROM balenalib/raspberrypi3-debian-node:${NODEJS_VERSION}-bullseye-run
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:${NODEJS_VERSION}-bullseye-run
 
 # install required packages
 RUN install_packages \
@@ -8,6 +8,18 @@ RUN install_packages \
     chromium \
     lsb-release \
     scrot 
+
+RUN install_packages \
+    libgles2-mesa \
+    mesa-vdpau-drivers \
+    xserver-xorg-video-fbdev \
+    libgl1-mesa-dri \
+    libglx-mesa0 \
+    mesa-vulkan-drivers \
+    mesa-va-drivers \
+    alsa-utils \
+    libasound2-dev \
+    xterm
 
 WORKDIR /usr/src/app
 
