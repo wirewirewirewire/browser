@@ -128,7 +128,7 @@ let launchChromium = async function (url) {
   if ("1" === kioskMode) {
     console.log("Enabling KIOSK mode");
     startingUrl = `--app= ${url}`;
-    flags = flags.concat(["--kiosk" ,"--disable-context-menu"]);
+    flags = flags.concat(["--kiosk", "--disable-context-menu"]);
   } else {
     console.log("Disabling KIOSK mode");
   }
