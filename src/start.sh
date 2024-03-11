@@ -25,6 +25,8 @@ while [ ! -e /tmp/.X11-unix/X${DISPLAY#*:} ]; do sleep 0.5; done
 
 echo "Start Browser"
 
+sleep 5
+
 # we can't maintain the environment with su, because we are logging in to a new session
 # so we need to manually pass in the environment variables to maintain, in a whitelist
 # This gets the current environment, as a comma-separated string
