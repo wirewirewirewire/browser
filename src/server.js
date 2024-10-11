@@ -9,6 +9,7 @@ const { spawn } = require("child_process");
 const { readFile, unlink } = require("fs").promises;
 const path = require("path");
 const os = require("os");
+const fs = require("fs");
 
 // Bring in the static environment variables
 const API_PORT = parseInt(process.env.API_PORT) || 5011;
@@ -23,6 +24,7 @@ const HTTPS_REGEX = /^https?:\/\//i; //regex for HTTP/S prefix
 let kioskMode = process.env.KIOSK || "0";
 let enableGpu = process.env.ENABLE_GPU || "0";
 
+const containerStateFile = "/usr/src/app/running.state";
 let DEFAULT_FLAGS = [];
 let currentUrl = "";
 let flags = [];
@@ -137,6 +139,11 @@ let launchChromium = async function (url) {
 
   console.log(`Starting Chromium with flags: ${flags}`);
   console.log(`Displaying URL: ${startingUrl}`);
+
+  setTimeout(function () {
+    console.log("[MAIN] --- Container set Ready state ---");
+    fs.writeFileSync(containerStateFile, "running");
+  }, 2000);
 
   chrome = await chromeLauncher.launch({
     chromePath: "/usr/bin/chromium-browser",

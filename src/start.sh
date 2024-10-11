@@ -23,7 +23,7 @@ export DISPLAY=:0
 
 while [ ! -e /tmp/.X11-unix/X${DISPLAY#*:} ]; do sleep 0.5; done
 
-echo "Start Browser"
+echo "[MAIN] Start Browser"
 
 sleep 5
 
@@ -42,9 +42,23 @@ sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/
 export VERSION=`chromium-browser --version`
 echo "Installed browser version: $VERSION"
 
+cleanup() {
+    rm -f /usr/src/app/running.state
+    exit 0
+}
+
+trap cleanup SIGTERM SIGINT
+
 sleep 5
 
-node /usr/src/app/server.js
+while true; do    
+	touch /usr/src/app/running.state  # Create the running state file
+    node /usr/src/app/server.js
+	rm -f /usr/src/app/running.state  # Remove the running state file after stopping
+    echo "[MAIN] Restart Browser ... "
+    sleep 60
+done
+
 
 #su -w $environment -c "export DISPLAY=:0 && node /usr/src/app/server.js" - chromium
 
