@@ -29,3 +29,10 @@ jobs:
         with:
           balena_api_token: ${{secrets.BALENA_TOKEN}}
           balena_command: "push ${{vars.BALENA_FLEET}}-rpi"
+
+      - name: Balena Deploy Blocks rpi5
+        uses: Theia-Scientific/balena-cli@v18
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_TOKEN}}
+          balena_command: "push ${{vars.BALENA_FLEET}}-rpi5"
