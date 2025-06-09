@@ -120,7 +120,12 @@ let launchChromium = async function (url) {
       flags.push("--disable-gpu");
     } else {
       console.log("Enabling GPU");
-      let gpuFlags = ["--enable-zero-copy", "--num-raster-threads=4", "--ignore-gpu-blocklist", "--enable-gpu-rasterization"];
+      let gpuFlags = [
+        "--enable-zero-copy",
+        "--num-raster-threads=4",
+        "--ignore-gpu-blocklist",
+        "--enable-gpu-rasterization",
+      ];
 
       flags = flags.concat(gpuFlags);
     }
@@ -135,7 +140,7 @@ let launchChromium = async function (url) {
     console.log("Disabling KIOSK mode");
   }
 
-  flags = flags.concat(["--no-sandbox", "--test-type"]);
+  flags = flags.concat(["--no-sandbox", "--test-type", "--disable-features=Translate"]);
 
   console.log(`Starting Chromium with flags: ${flags}`);
   console.log(`Displaying URL: ${startingUrl}`);
@@ -160,7 +165,9 @@ let launchChromium = async function (url) {
 
 // Get's the chrome-launcher default flags, minus the extensions and audio muting flags.
 async function SetDefaultFlags() {
-  DEFAULT_FLAGS = await chromeLauncher.Launcher.defaultFlags().filter((flag) => "--disable-extensions" !== flag && "--mute-audio" !== flag);
+  DEFAULT_FLAGS = await chromeLauncher.Launcher.defaultFlags().filter(
+    (flag) => "--disable-extensions" !== flag && "--mute-audio" !== flag
+  );
 }
 
 async function setTimer(interval) {
