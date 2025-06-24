@@ -18,6 +18,7 @@ const WINDOW_POSITION = process.env.WINDOW_POSITION || "0,0";
 const PERSISTENT_DATA = process.env.PERSISTENT || "0";
 const REMOTE_DEBUG_PORT = process.env.REMOTE_DEBUG_PORT || 35173;
 const FLAGS = process.env.FLAGS || null;
+const USER_FLAGS = process.env.USER_FLAGS || null;
 const HTTPS_REGEX = /^https?:\/\//i; //regex for HTTP/S prefix
 
 // Environment variables which can be overriden from the API
@@ -120,7 +121,12 @@ let launchChromium = async function (url) {
       flags.push("--disable-gpu");
     } else {
       console.log("Enabling GPU");
-      let gpuFlags = ["--enable-zero-copy", "--num-raster-threads=4", "--ignore-gpu-blocklist", "--enable-gpu-rasterization"];
+      let gpuFlags = [
+        "--enable-zero-copy",
+        "--num-raster-threads=4",
+        "--ignore-gpu-blocklist",
+        "--enable-gpu-rasterization",
+      ];
 
       flags = flags.concat(gpuFlags);
     }
@@ -135,10 +141,15 @@ let launchChromium = async function (url) {
     console.log("Disabling KIOSK mode");
   }
 
-  flags = flags.concat(["--no-sandbox", "--test-type"]);
+  flags = flags.concat(["--no-sandbox", "--test-type", "--disable-features=Translate"]);
+  if (USER_FLAGS != null) {
+    var userFlagsArray = USER_FLAGS.split(" ");
+    flags = flags.concat(userFlagsArray);
+  }
 
   console.log(`Starting Chromium with flags: ${flags}`);
   console.log(`Displaying URL: ${startingUrl}`);
+  console.log(flags);
 
   setTimeout(function () {
     console.log("[MAIN] --- Container set Ready state ---");
@@ -151,6 +162,8 @@ let launchChromium = async function (url) {
     ignoreDefaultFlags: true,
     chromeFlags: flags,
     port: REMOTE_DEBUG_PORT,
+    connectionPollInterval: 1000,
+    maxConnectionRetries: 120,
     userDataDir: "1" === PERSISTENT_DATA ? "/data/chromium" : undefined,
   });
 
@@ -160,7 +173,9 @@ let launchChromium = async function (url) {
 
 // Get's the chrome-launcher default flags, minus the extensions and audio muting flags.
 async function SetDefaultFlags() {
-  DEFAULT_FLAGS = await chromeLauncher.Launcher.defaultFlags().filter((flag) => "--disable-extensions" !== flag && "--mute-audio" !== flag);
+  DEFAULT_FLAGS = await chromeLauncher.Launcher.defaultFlags().filter(
+    (flag) => "--disable-extensions" !== flag && "--mute-audio" !== flag
+  );
 }
 
 async function setTimer(interval) {
