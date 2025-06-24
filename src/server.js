@@ -142,6 +142,7 @@ let launchChromium = async function (url) {
   }
 
   flags = flags.concat(["--no-sandbox", "--test-type", "--disable-features=Translate"]);
+
   if (USER_FLAGS != null) {
     var userFlagsArray = USER_FLAGS.split(" ");
     flags = flags.concat(userFlagsArray);
