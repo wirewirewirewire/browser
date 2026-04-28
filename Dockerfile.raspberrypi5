@@ -23,7 +23,11 @@ RUN install_packages \
     libasound2-dev \
     pulseaudio \
     xterm \
-    wget
+    wget \
+    gstreamer1.0-libav \
+    gstreamer1.0-plugins-bad \
+    libva-drm2 \
+    v4l-utils
 
 WORKDIR /usr/src/app
 
