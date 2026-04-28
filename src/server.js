@@ -18,7 +18,7 @@ const WINDOW_POSITION = process.env.WINDOW_POSITION || "0,0";
 const PERSISTENT_DATA = process.env.PERSISTENT || "0";
 const REMOTE_DEBUG_PORT = process.env.REMOTE_DEBUG_PORT || 35173;
 const FLAGS = process.env.FLAGS || null;
-const HTTPS_REGEX = /^https?:\/\//i; //regex for HTTP/S prefix
+const PROTOCOL_REGEX = /^[a-zA-Z0-9-]+:\/\//i; // regex for any protocol prefix
 
 // Environment variables which can be overriden from the API
 let kioskMode = process.env.KIOSK || "0";
@@ -44,7 +44,8 @@ async function getUrlToDisplayAsync() {
 
     // Prepend http:// if the LAUNCH_URL doesn't have it.
     // This is needed for the --app flag to be used for kiosk mode
-    if (!HTTPS_REGEX.test(launchUrl)) {
+
+    if (!PROTOCOL_REGEX.test(launchUrl)) {
       launchUrl = `http://${launchUrl}`;
     }
 
