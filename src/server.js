@@ -18,6 +18,7 @@ const WINDOW_POSITION = process.env.WINDOW_POSITION || "0,0";
 const PERSISTENT_DATA = process.env.PERSISTENT || "0";
 const REMOTE_DEBUG_PORT = process.env.REMOTE_DEBUG_PORT || 35173;
 const FLAGS = process.env.FLAGS || null;
+const USER_FLAGS = process.env.USER_FLAGS || null;
 const PROTOCOL_REGEX = /^[a-zA-Z0-9-]+:\/\//i; // regex for any protocol prefix
 
 // Environment variables which can be overriden from the API
