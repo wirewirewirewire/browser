@@ -143,8 +143,14 @@ let launchChromium = async function (url) {
 
   flags = flags.concat(["--no-sandbox", "--test-type", "--disable-features=Translate"]);
 
+  if (USER_FLAGS != null) {
+    var userFlagsArray = USER_FLAGS.split(" ");
+    flags = flags.concat(userFlagsArray);
+  }
+
   console.log(`Starting Chromium with flags: ${flags}`);
   console.log(`Displaying URL: ${startingUrl}`);
+  console.log(flags);
 
   setTimeout(function () {
     console.log("[MAIN] --- Container set Ready state ---");
@@ -157,6 +163,8 @@ let launchChromium = async function (url) {
     ignoreDefaultFlags: true,
     chromeFlags: flags,
     port: REMOTE_DEBUG_PORT,
+    connectionPollInterval: 1000,
+    maxConnectionRetries: 120,
     userDataDir: "1" === PERSISTENT_DATA ? "/data/chromium" : undefined,
   });
 

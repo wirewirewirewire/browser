@@ -11,6 +11,20 @@ RUN install_packages \
     lsb-release \
     scrot 
 
+RUN install_packages \
+    libgles2-mesa \
+    mesa-vdpau-drivers \
+    xserver-xorg-video-fbdev \
+    libgl1-mesa-dri \
+    libglx-mesa0 \
+    mesa-vulkan-drivers \
+    mesa-va-drivers \
+    alsa-utils \
+    libasound2-dev \
+    pulseaudio \
+    xterm \
+    wget
+
 WORKDIR /usr/src/app
 
 # install node dependencies
@@ -38,9 +52,7 @@ RUN usermod -a -G audio,video,tty chromium
 
 RUN ln -s /usr/bin/chromium /usr/bin/chromium-browser || true
 
-# Set up the audio block. This won't have any effect if the audio block is not being used.
-RUN curl -skL https://raw.githubusercontent.com/balena-labs-projects/audio/master/scripts/alsa-bridge/debian-setup.sh| sh
-ENV PULSE_SERVER=tcp:audio:4317
+COPY ./asound.conf /etc/asound.conf
 
 COPY VERSION .
 ENV DISPLAY=:0
